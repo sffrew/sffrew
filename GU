@@ -1,0 +1,123 @@
+
+    def update(self, current_time):
+        self.current_time = current_time
+        for card in self.card_list:
+            card.update(self.sun_value, self.current_time)
+
+    def createImage(self, x, y, num):
+        if num == 1:
+            return
+        img = self.image
+        rect = self.image.get_rect()
+        width = rect.w
+        height = rect.h
+        self.image = pg.Surface((width * num, height)).convert()
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        for i in range(num):
+            x = i * width
+            self.image.blit(img, (x,0))
+        self.image.set_colorkey(c.BLACK)
+    
+    def setupCards(self, card_list):
+        self.card_list = []
+        x = self.card_offset_x
+        y = 8
+        for index in card_list:
+            x += 55
+            self.card_list.append(Card(x, y, index))
+
+    def checkCardClick(self, mouse_pos):
+        result = None
+        for card in self.card_list:
+            if card.checkMouseClick(mouse_pos):
+                if card.canClick(self.sun_value, self.current_time):
+                    result = (plant_name_list[card.name_index], card)
+                break
+        return result
+    
+    def checkMenuBarClick(self, mouse_pos):
+        x, y = mouse_pos
+        if(x >= self.rect.x and x <= self.rect.right and
+           y >= self.rect.y and y <= self.rect.bottom):
+            return True
+        return False
+
+    def decreaseSunValue(self, value):
+        self.sun_value -= value
+
+    def increaseSunValue(self, value):
+        self.sun_value += value
+
+    def setCardFrozenTime(self, plant_name):
+        for card in self.card_list:
+            if plant_name_list[card.name_index] == plant_name:
+                card.setFrozenTime(self.current_time)
+                break
+
+    def drawSunValue(self):
+        self.value_image = getSunValueImage(self.sun_value)
+        self.value_rect = self.value_image.get_rect()
+        self.value_rect.x = 21
+        self.value_rect.y = self.rect.bottom - 21
+        
+        self.image.blit(self.value_image, self.value_rect)
+
+    def draw(self, surface):
+        self.drawSunValue()
+        surface.blit(self.image, self.rect)
+        for card in self.card_list:
+            card.draw(surface)
+
+class Panel():
+    def __init__(self, card_list, sun_value):
+        self.loadImages(sun_value)
+        self.selected_cards = []
+        self.selected_num = 0
+        self.setupCards(card_list)
+
+    def loadFrame(self, name):
+        frame = tool.GFX[name]
+        rect = frame.get_rect()
+        frame_rect = (rect.x, rect.y, rect.w, rect.h)
+
+        return tool.get_image(tool.GFX[name], *frame_rect, c.WHITE, 1)
+
+    def loadImages(self, sun_value):
+        self.menu_image = self.loadFrame(c.MENUBAR_BACKGROUND)
+        self.menu_rect = self.menu_image.get_rect()
+        self.menu_rect.x = 0
+        self.menu_rect.y = 0
+
+        self.panel_image = self.loadFrame(c.PANEL_BACKGROUND)
+        self.panel_rect = self.panel_image.get_rect()
+        self.panel_rect.x = 0
+        self.panel_rect.y = PANEL_Y_START
+
+        
+        self.value_image = getSunValueImage(sun_value)
+        self.value_rect = self.value_image.get_rect()
+        self.value_rect.x = 21
+        self.value_rect.y = self.menu_rect.bottom - 21
+
+        self.button_image =  self.loadFrame(c.START_BUTTON)
+        self.button_rect = self.button_image.get_rect()
+        self.button_rect.x = 155
+        self.button_rect.y = 547
+
+
+    def checkCardClick(self, mouse_pos):
+        result = None
+        for index, card in enumerate(self.card_list):
+            if card.checkMouseClick(mouse_pos):
+                result = (card.plant_name, card)
+                break
+        return result
+    
+    def checkMenuBarClick(self, mouse_pos):
+        x, y = mouse_pos
+        if(x >= self.rect.x and x <= self.rect.right and
+           y >= self.rect.y and y <= self.rect.bottom):
+            return True
+        return False
