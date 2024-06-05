@@ -1,0 +1,16 @@
+ /**
+     * 根据逗号分割，多个typeCode的字符串，返回对应的名称
+     *
+     * @param config
+     * @return
+     */
+    private String getTypeNames(AlertFocusConfig config) {
+        String typeName = "";
+        if (StringUtils.hasText(config.getConcernType())) {
+            String[] split = config.getConcernType().split(Constants.COMMA);
+            for (String type : split) {
+                typeName += StringUtils.hasText(typeName) ? Constants.COMMA + AlertFocusTypeEnum.getValueByKey(type) : AlertFocusTypeEnum.getValueByKey(type);
+            }
+        }
+        return typeName;
+    }
