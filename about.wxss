@@ -1,0 +1,13 @@
+.container{
+  background-color: #eee;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+ 
+}
+.about-banner{
+width: 375rpx;
+height: 375rpx;
+border-radius: 50%;
+}
