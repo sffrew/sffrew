@@ -1,0 +1,44 @@
+<!-- 用户信息 -->
+    <view class="user_info_wrap" >
+        <view class="kong"></view>
+        <open-data type="userAvatarUrl" class="img" />
+        <view class="kong"></view>
+    </view>
+    <!-- 用户名 -->
+    <view class="user_info">
+        <open-data type="userNickName" lang="zh_CN" class="userNickName"/>
+</view>
+
+<view class="user_content">
+  <view class="user_main">
+    <!-- 我的订单 -->
+    <view class="orders_wrap">
+      <view class="orders_title">我的订单</view>
+      <view class="order_content">
+        <navigator url="/pages/order/order?type=0">
+          <view class="iconfont icon-31daifahuo"></view>
+          <view class="order_name">待付款</view>
+        </navigator>
+        <navigator url="/pages/order/order?type=1">
+          <view class="iconfont icon-31daifahuo"></view>
+          <view class="order_name">待发货</view>
+        </navigator>
+        <navigator url="/pages/order/order?type=2">
+          <view class="iconfont icon-31daishouhuo"></view>
+          <view class="order_name">待收货</view>
+        </navigator>
+        <navigator url="/pages/order/order?type=3">
+          <view class="iconfont icon-yiwancheng"></view>
+          <view class="order_name">已完成</view>
+        </navigator>
+      </view>
+    </view>
+    <!-- 应用信息相关 -->
+    <view class="app_info_wrap">
+      <view class="app_info_item app_info_contact">
+       
+        <text>QQ：1261968613</text>
+      </view>
+    </view>
+  </view>
+</view>
