@@ -1,0 +1,14 @@
+var lon = [[${earthQuake.epiLon}]];  
+var lat = [[${earthQuake.epiLat}]];
+var cityInfo = [[${earthQuake.locationC}]];
+$(function() {
+     var marker = L.circleMarker(new L.LatLng(lat, lon), {radius: 8,
+		labelStyle: {
+			 text: cityInfo,
+			 rotation: 0,
+			 zIndex: 2,
+			 strokeStyle :"red"
+			},
+		color : "red"
+		}).addTo(mymap);
+   });
