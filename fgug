@@ -1,0 +1,17 @@
+<scroll-view 
+class="scroll"
+scroll-y  # 运行y轴滑动
+lower-threshold="100" # 距离底部还有100px时，触发事件
+bindscrolltolower="handleGetData"# 事件处理函数
+
+
+refresher-enabled="true"        # 开启 下拉刷新
+refresher-default-style="black" # 下拉默认样式
+refresher-background="#f0f0f0"  # 下拉背景色
+bindrefresherrefresh="handleReload" # 下拉触发事件
+refresher-triggered="{{isRefresh}}" # 设置下拉回弹，false允许回弹，
+
+enable-back-to-top="true"  # 快速回到顶部，ios点顶部，安卓点tab
+>
+  <view wx:for="{{goods}}" wx:key="index">{{item}}</view>
+</scroll-view>
