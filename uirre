@@ -1,0 +1,29 @@
+# 2、cellnameabs函数
+import xlrd
+def cellnameabs(rowx, colx, r1c1=0):
+    """
+    将行号(rowx)和列号(colx)转换为Excel单元格的绝对引用名称(如$A$1)
+    """
+    # 将列号转换为对应的列字母(A,B,C,...)
+    col_letters = ''
+    colx += 1  # Excel的列是从1开始的，编程时通常从0开始
+    while colx:
+        colx, remainder = divmod(colx - 1, 26)
+        col_letters = chr(65 + remainder) + col_letters
+    # 拼接行号和列字母，并在前后加上$符号表示绝对引用
+    return '$' + col_letters + '$' + str(rowx + 1)  # 行号从1开始
+if __name__ == '__main__':
+    # 读取Excel文件，可根据自身文件的实际路径做调整，如我的路径为：E:\360Downloads\test.xls
+    workbook = xlrd.open_workbook(r'E:\360Downloads\test.xls')
+    # sheet = workbook.sheet_by_index(0)  # 假设使用第一个工作表
+    sheet = workbook.sheet_by_name('test1')  # 也可以按名称指定要操作的工作表，注意，只需要指定工作表名，而不是带后缀的文件名
+    # 假设我们要获取第2行第3列的单元格的绝对引用名称和内容
+    rowx = 1  # 注意：行号在编程中通常从0开始，这里rowx=1，表示为引用工作表的第2行
+    colx = 2  # 注意：列号在编程中通常从0开始，这里colx=2，表示为引用工作表的第3列
+    # 获取单元格的绝对引用名称
+    cell_ref = cellnameabs(rowx, colx)
+    # 获取单元格内容
+    cell_value = sheet.cell_value(rowx, colx)
+    # 打印结果
+    print(f"The absolute reference of the cell is: {cell_ref}")
+    print(f"The value of the cell is: {cell_value}")
